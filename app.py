@@ -93,9 +93,12 @@ def corroborate():
         if observed is None:
             continue
 
-        age_days = (as_of - observed).total_seconds() / 86400
+        delta_days = (as_of - observed).total_seconds() / 86400
 
-        fresh = age_days <= staleness_days
+        fresh = (
+            delta_days >= 0 and
+            delta_days <= staleness_days
+        )
 
         valid_sources.append({
             **s,
